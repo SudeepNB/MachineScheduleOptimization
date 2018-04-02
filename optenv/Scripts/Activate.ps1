@@ -27,7 +27,7 @@ function global:deactivate ([switch]$NonDestructive) {
 
 deactivate -nondestructive
 
-$env:VIRTUAL_ENV="D:\BEinCPPS-Proposal\optimization-master (1)\optimization-master\optenv"
+$env:VIRTUAL_ENV="D:\BEinCPPS-Proposal\ScheduleOptimizer\optenv"
 
 if (! $env:VIRTUAL_ENV_DISABLE_PROMPT) {
     # Set the prompt to include the env name
