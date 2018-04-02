@@ -1,4 +1,4 @@
-OrderID,ProductID,Quantity,Deadline,workindex
+OrderID,ProductID,Quantity,Deadline(in days),workindex
 0,0,20,30,0
 0,1,40,30,1
 0,2,25,30,2

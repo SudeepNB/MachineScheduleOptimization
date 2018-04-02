@@ -108,8 +108,8 @@ def plot_schedule(list_process_orders, products, orderIDs):
 
     values = np.array(list_process_orders)
     fig = plt.figure(figsize=(10, 5))
-    ax2 = fig.add_subplot(212)
-    ax1 = fig.add_subplot(211)
+    ax2 = fig.add_subplot(211)
+    ax1 = fig.add_subplot(212)
 
     left = 0
     color_index = -1
@@ -158,7 +158,7 @@ def plot_schedule(list_process_orders, products, orderIDs):
     ax1.set_xlim(xmin=0)
     ax2.set_xlim(xmin=0)
 
-    ax2.set_xlabel("Orders with time")
+    # ax2.set_xlabel("Orders with time")
     ax1.set_ylabel("Machine 0")
     ax2.set_ylabel("Machine 0")
 
