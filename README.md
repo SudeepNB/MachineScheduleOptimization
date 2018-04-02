@@ -16,11 +16,11 @@ Fork,4,8,2
 2. `order.txt`  
 This file contains order data.It provides the details for production order. Each proudction order is composed of OrderID,ProductID,Quantity,Deadline(in days),workindex (Identifier). Available example production order is:  
 OrderID,ProductID,Quantity,Deadline(in days),workindex  
-0,0,20,30,0 -Order0 with 20 Knife and deadline of 30 days  
-0,1,40,30,1 -Order0 with 20 Spoons and deadline of 30 days  
-0,2,25,30,2 -Odere0 with 25 Forks and deadline of 30 days  
-3,1,40,60,3 -Order 3  
-3,2,25,60,4 -Oder 3  
+0,0,20,30,0 //Order0 with 20 Knife and deadline of 30 days  
+0,1,40,30,1 //Order0 with 20 Spoons and deadline of 30 days  
+0,2,25,30,2 //Odere0 with 25 Forks and deadline of 30 days  
+3,1,40,60,3 //Order 3  
+3,2,25,60,4 //Order 3  
 2,0,20,70,5  
 2,1,40,70,6  
 1,1,20,80,7  
