@@ -30,5 +30,5 @@ OrderID,ProductID,Quantity,Deadline(in days),workindex
 By default, system takes maximum value of `deadline` from orders. You can set inside `solve()` method.
 
 ## Output ##
-![Output](images/output.png)
+![Output](images/Schedule_1.png)
 
