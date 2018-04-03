@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2713fda-f363-4256-b991-55c1ad5270ba" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/order.txt" afterPath="$PROJECT_DIR$/data/order.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/processOrder.py" afterPath="$PROJECT_DIR$/processOrder.py" />
     </list>
@@ -15,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="processOrder.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="processOrder.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/processOrder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1648">
-              <caret line="316" column="0" lean-forward="true" selection-start-line="316" selection-start-column="0" selection-end-line="316" selection-end-column="0" />
+            <state relative-caret-position="342">
+              <caret line="147" column="46" lean-forward="false" selection-start-line="147" selection-start-column="46" selection-end-line="147" selection-end-column="46" />
               <folding>
                 <element signature="e#42#73#0" expanded="true" />
               </folding>
@@ -30,18 +29,18 @@
       <file leaf-file-name="order.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/order.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+            <state relative-caret-position="187">
+              <caret line="11" column="8" lean-forward="false" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="products.txt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="products.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/products.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="17">
-              <caret line="1" column="9" lean-forward="false" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
+              <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="3" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -62,9 +61,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/processOrder.py" />
         <option value="$PROJECT_DIR$/data/products.txt" />
         <option value="$PROJECT_DIR$/data/order.txt" />
+        <option value="$PROJECT_DIR$/processOrder.py" />
       </list>
     </option>
   </component>
@@ -177,29 +176,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/processOrder.py">
+    <entry file="file://$PROJECT_DIR$/data/products.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1648">
-          <caret line="316" column="0" lean-forward="true" selection-start-line="316" selection-start-column="0" selection-end-line="316" selection-end-column="0" />
-          <folding>
-            <element signature="e#42#73#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="17">
+          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="3" selection-end-column="10" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data/order.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        <state relative-caret-position="187">
+          <caret line="11" column="8" lean-forward="false" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/products.txt">
+    <entry file="file://$PROJECT_DIR$/processOrder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="9" lean-forward="false" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
-          <folding />
+        <state relative-caret-position="342">
+          <caret line="147" column="46" lean-forward="false" selection-start-line="147" selection-start-column="46" selection-end-line="147" selection-end-column="46" />
+          <folding>
+            <element signature="e#42#73#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
