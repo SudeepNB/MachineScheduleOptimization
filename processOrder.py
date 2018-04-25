@@ -114,13 +114,15 @@ def plot_schedule(list_process_orders, products, orderIDs):
     hatches = ('-', '+', 'x', '\\', '*', 'o', 'O', '.')
 
     values = np.array(list_process_orders)
-    fig = plt.figure(figsize=(10, 5))
+    fig = plt.figure(figsize=(15, 5))
     ax1 = fig.add_subplot(212)
-    ax2 = fig.add_subplot(211)
+    # ax2 = fig.add_subplot(211)
     left = 0
     color_index = -1
     start = 0
     x_ticks = [0]
+    y_ticks=[0]
+    top=1
     ax1.axvline(x=left, color='black')
     for j, process_orders in enumerate(list_process_orders):
         order_width = 0
@@ -143,34 +145,39 @@ def plot_schedule(list_process_orders, products, orderIDs):
                 ax1.axvline(x=left, color='yellow')
                 x_ticks.append(left)
             color_index = order[3]
-            x_ticks.append(left)
-            ax1.barh(y=0, left=left, width=value, linewidth=0.5,
+            # x_ticks.append(left)
+            ax1.barh(y=top, left=left, width=value, linewidth=0.5,
                      color=colors[color_index])
             left += value
-            x_ticks.append(left)
+            x_ticks.extend(list(range(value, left)))
+            top+=1
+
+            y_ticks.append(top)
         ax1.text((start + left) / 2, 0, "Order_%i" % order_index, size=8, ha='center')
         ax1.axvline(x=left, color='black')
         order_width = left - start
-        ax2.barh(y=0, left=start, width=order_width, linewidth=0.5,
+
+        ax1.barh(y=0, left=start, width=order_width, linewidth=1,
                  label='Order_%i' % order_index,
                  )
     new_x_ticks = x_ticks
-    ax1.set_xticks(new_x_ticks)
-    ax2.set_xticks(new_x_ticks)
+    ax1.set_xticks(list(set(new_x_ticks))[::4])
+    ax1.set_xticklabels(list(set(new_x_ticks))[::4], rotation=90)
+    # ax2.set_xticks(new_x_ticks)
 
     ax1.set_yticks([])
-    ax2.set_yticks([])
+    # ax2.set_yticks([])
 
     ax1.set_xlim(xmin=0)
-    ax2.set_xlim(xmin=0)
+    # ax2.set_xlim(xmin=0)
 
     # ax2.set_xlabel("Orders with time")
     ax1.set_ylabel("Machine 0")
-    ax2.set_ylabel("Machine 0")
+    # ax2.set_ylabel("Machine 0")
 
     # set titles
-    ax1.set_title('Products schedule')
-    ax2.set_title('Orders schedule')
+    ax1.set_title('Polishing Schedule')
+    # ax2.set_title('Orders schedule')
 
     # Legend For Colors
     patch_list = []
@@ -179,7 +186,7 @@ def plot_schedule(list_process_orders, products, orderIDs):
         patch_list.append(data_key)
     ax1.legend(handles=patch_list, loc="best", bbox_to_anchor=(1.0, 1.00))
 
-    ax2.legend(loc="best", bbox_to_anchor=(1.0, 1.00))
+    # ax2.legend(loc="best", bbox_to_anchor=(1.0, 1.00))
     plt.show()
 
 
