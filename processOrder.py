@@ -14,8 +14,8 @@ import pandas as pd
 Item = namedtuple("Item", ['index', 'requiredTime', 'deadline'])
 Product = namedtuple('Product', ['index', 'name', 'setupTime', 'unitProductionTime'])
 Order = namedtuple('Order', ['orderID', 'productIndex', 'quantity', 'deadline', 'workIndex'])
-MaintenanceDate_start = 12
-MaintenanceDate_end = 15
+MaintenanceDate_start = 1200
+MaintenanceDate_end = 1800
 
 
 def solve(input_data, capacity=None):
@@ -109,15 +109,31 @@ def ProcessProdcut(d, r, s, K):
                 c[i][j] = c[i - 1][j]
     return [c[n - 1][K], getUsedItems(r, c)]
 
+colors = ["r", "g", "b", "y", "c", "m", '#FF9900', '#5d8984', '#c00000', '#672483', '#77933c',
+              '#ffb445', '#89a9a5', '#d14545', '#905fa4', '#9cb071',
+              '#a36200', '#3c5853', '#7b0000', '#421754', '#4c5e27',
+              '#ffd08b', '#b5c9c7', '#e28b8b', '#b99bc6', '#c1cda6',
+              '#5d3800', '#223230', '#460000', '#260e30', '#2c3616',
+              ]
+def get_color_pallet(size):
+    if size < 65:
+        return colors[:size]
+    p = colors
+    out = []
+    for i in range(size):
+        idx = int(i * 25.0 / size)
+        out.append(p[idx])
+    return out
 
 def plot_schedule(list_process_orders, products, orderIDs):
     import matplotlib.patches as mpatches
+
     # make sure colors is greater than number of products
-    colors = ["r", "g", "b", "y", "c", "m", "w"]
+    colors=get_color_pallet(50)
     hatches = ('-', '+', 'x', '\\', '*', 'o', 'O', '.')
 
     values = np.array(list_process_orders)
-    fig = plt.figure(figsize=(15, 5))
+    fig = plt.figure(figsize=(55, 25))
     ax1 = fig.add_subplot(212)
     # ax2 = fig.add_subplot(211)
     left = 0
@@ -144,10 +160,10 @@ def plot_schedule(list_process_orders, products, orderIDs):
             setupTime = setupTime[0]
             if color_index != order[3]:
                 value = order[1] - setupTime
-                ax1.axvline(x=left, color='yellow')
+                ax1.axvline(x=left, color='yellow', alpha=0.4)
                 x_ticks.append(left)
                 left += setupTime
-                ax1.axvline(x=left, color='yellow')
+                ax1.axvline(x=left, color='yellow', alpha=0.4)
                 x_ticks.append(left)
             color_index = order[3]
             # x_ticks.append(left)
@@ -162,16 +178,15 @@ def plot_schedule(list_process_orders, products, orderIDs):
             top += 1
 
             y_ticks.append(top)
-        ax1.text((start + left) / 2, 0, "Order_%i" % order_index, size=8, ha='center')
+        ax1.text((start + left) / 2, 0,'O_%i' % order_index,size=8, ha='center')
         ax1.axvline(x=left, color='black')
         order_width = left - start
 
         ax1.barh(y=0, left=start, width=order_width, linewidth=1,
-                 label='Order_%i' % order_index,
-                 )
+                 label='O_%i' % order_index)
     new_x_ticks = x_ticks
-    ax1.set_xticks(list(set(new_x_ticks))[::4])
-    ax1.set_xticklabels(list(set(new_x_ticks))[::4], rotation=90)
+    ax1.set_xticks(list(set(new_x_ticks))[::100])
+    ax1.set_xticklabels(list(set(new_x_ticks))[::100], rotation=90)
     # ax2.set_xticks(new_x_ticks)
 
     ax1.set_yticks([])
@@ -190,12 +205,17 @@ def plot_schedule(list_process_orders, products, orderIDs):
 
     # Legend For Colors
     patch_list = []
+
+    # for order, color in zip(list_process_orders, colors):
+    #     data_key = mpatches.Patch(color=color, label= "Order_%i" %order[0][0])
+    #     patch_list.append(data_key)
     for product, color in zip(products, colors):
         data_key = mpatches.Patch(color=color, label=product.name)
         patch_list.append(data_key)
     ax1.legend(handles=patch_list, loc="best", bbox_to_anchor=(1.0, 1.00))
 
     # ax2.legend(loc="best", bbox_to_anchor=(1.0, 1.00))
+    plt.tick_params(axis='both', labelsize=6)
     plt.show()
 
 
@@ -234,6 +254,8 @@ def get_clean_data(order_data, product_data):
 
 
 def getProductWithMaxSetupTime(common, products):
+    if not common:
+        common = {0}
     max_value = max([product.setupTime for product in products if product.index in common])
     productID = [product.index for product in products if product.setupTime == max_value and product.index in common]
     return productID[0]
@@ -318,13 +340,14 @@ def load_data_from_file(file_name):
     df = pd.read_excel(io=file_name)
     return df
 
+
 def get_data(order_data_df, product_data):
     product_lines = product_data.split('\n')
     product_count = len(product_lines) - 1
     products = []
     for i in range(1, product_count):
         lines = product_lines[i].split(',')
-        products.append(Product(int(lines[3]), lines[0], int(lines[1]), int(lines[2])))
+        products.append(Product(int(lines[3]), lines[0], int(lines[1]), float(lines[2])))
 
     # order_lines = order_data.split('\n')
     order_count = len(order_data_df.index)
@@ -340,7 +363,7 @@ def get_data(order_data_df, product_data):
     for order in orders:
         # in format Order(requiredTime, deadline)
         product = [p for p in products if p.index == order.productIndex]
-        processed_orders.append([order.orderID, int(order.quantity / product[0].unitProductionTime
+        processed_orders.append([order.orderID, int(order.quantity * product[0].unitProductionTime
                                                     + product[0].setupTime),
                                  order.deadline, order[1]])
 
@@ -352,6 +375,7 @@ def get_data(order_data_df, product_data):
                                 ([order[2] for order in processed_orders if order[0] == orderID])[0],  # Deadlines
                                 ])
     return products, orders, processed_orders, combined_orders
+
 
 if __name__ == '__main__':
     import sys
