@@ -5,6 +5,7 @@ from collections import namedtuple
 from collections import OrderedDict
 import numpy as np
 from matplotlib import pyplot as plt
+import pandas as pd
 
 # import pudb
 # pudb.set_trace()
@@ -13,6 +14,8 @@ from matplotlib import pyplot as plt
 Item = namedtuple("Item", ['index', 'requiredTime', 'deadline'])
 Product = namedtuple('Product', ['index', 'name', 'setupTime', 'unitProductionTime'])
 Order = namedtuple('Order', ['orderID', 'productIndex', 'quantity', 'deadline', 'workIndex'])
+MaintenanceDate_start = 12
+MaintenanceDate_end = 15
 
 
 def solve(input_data, capacity=None):
@@ -51,6 +54,8 @@ def solve(input_data, capacity=None):
             data_for_graph.append([item.index, data_for_graph[i - 1][-1],
                                    data_for_graph[i - 1][-1] + item.requiredTime])
     # plot_schedule(data_for_graph)
+    import ipdb
+    ipdb.set_trace()
     return taken
 
 
@@ -121,9 +126,11 @@ def plot_schedule(list_process_orders, products, orderIDs):
     color_index = -1
     start = 0
     x_ticks = [0]
-    y_ticks=[0]
-    top=1
+    y_ticks = [0]
+    top = 1
     ax1.axvline(x=left, color='black')
+    ax1.axvline(x=MaintenanceDate_start, color='red')
+    ax1.axvline(x=MaintenanceDate_end, color='red')
     for j, process_orders in enumerate(list_process_orders):
         order_width = 0
         order_index = -1
@@ -146,11 +153,15 @@ def plot_schedule(list_process_orders, products, orderIDs):
                 x_ticks.append(left)
             color_index = order[3]
             # x_ticks.append(left)
+            if MaintenanceDate_start <= left + value and left <= MaintenanceDate_end:
+                left = MaintenanceDate_end
+
             ax1.barh(y=top, left=left, width=value, linewidth=0.5,
-                     color=colors[color_index])
+                     color=colors[color_index], tick_label='test')
+
             left += value
             x_ticks.extend(list(range(value, left)))
-            top+=1
+            top += 1
 
             y_ticks.append(top)
         ax1.text((start + left) / 2, 0, "Order_%i" % order_index, size=8, ha='center')
@@ -305,6 +316,45 @@ def optimize_product(taken_products, products):
     return orderIDs, combined_sequence
 
 
+def load_data_from_file(file_name):
+    df = pd.read_excel(io=file_name)
+    return df
+
+def get_data(order_data_df, product_data):
+    product_lines = product_data.split('\n')
+    product_count = len(product_lines) - 1
+    products = []
+    for i in range(1, product_count):
+        lines = product_lines[i].split(',')
+        products.append(Product(int(lines[3]), lines[0], int(lines[1]), int(lines[2])))
+
+    # order_lines = order_data.split('\n')
+    order_count = len(order_data_df.index)
+    orders = []
+    for index, row in order_data_df.iterrows():
+        orders.append(Order(row['Production Order Nr.'], row['ProductType'], row['Quantity'], row['Deadline'], index))
+
+    # for i in range(1, order_count):
+    #     lines = order_lines[i].split(',')
+    #     orders.append(Order(int(lines[0]), int(lines[1]), int(lines[2]),
+    #                         int(lines[3]), int(lines[4])))
+    processed_orders = []
+    for order in orders:
+        # in format Order(requiredTime, deadline)
+        product = [p for p in products if p.index == order.productIndex]
+        processed_orders.append([order.orderID, int(order.quantity / product[0].unitProductionTime
+                                                    + product[0].setupTime),
+                                 order.deadline, order[1]])
+
+        # Combining order wise
+    combined_orders = []
+    for orderID in set([order[0] for order in processed_orders]):
+        combined_orders.append([orderID,
+                                sum([order[1] for order in processed_orders if order[0] == orderID]),  # Required Time
+                                ([order[2] for order in processed_orders if order[0] == orderID])[0],  # Deadlines
+                                ])
+    return products, orders, processed_orders, combined_orders
+
 if __name__ == '__main__':
     import sys
 
@@ -315,16 +365,25 @@ if __name__ == '__main__':
             capacity = int(sys.argv[2].strip())
         except:
             pass
-        with open(file_location, 'r') as input_data_file:
-            input_data = input_data_file.read()
+        # load_data_from_file(file_location)
+        # with open(file_location, 'r') as input_data_file:
+        #     input_data = input_data_file.read()
         with open("data/products.txt", 'r') as product_file:
             product_data = product_file.read()
-        products, orders, processed_orders, combined_orders = get_clean_data(input_data, product_data)
+        products, orders, processed_orders, combined_orders = get_data(load_data_from_file(file_location), product_data)
         if capacity is None:
             taken = solve(combined_orders)
         else:
             taken = solve(combined_orders, capacity=capacity)
-        taken_products = [order for order in processed_orders if taken[order[0]] == 1]
+        import ipdb
+        ipdb.set_trace()
+        taken_products = [order for order in processed_orders if taken[order[3]] == 1]
+        # taken_products=[]
+        # for order in processed_orders:
+        #     import ipdb
+        #     ipdb.set_trace()
+        #     if taken[order[0]]==1:
+        #         taken_products.append(order)
         orderIDs, combined_sequence = optimize_product(taken_products, products)
         print("\nTAKEN ORDERS")
         print(taken_products)
