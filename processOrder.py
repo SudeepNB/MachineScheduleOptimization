@@ -54,8 +54,6 @@ def solve(input_data, capacity=None):
             data_for_graph.append([item.index, data_for_graph[i - 1][-1],
                                    data_for_graph[i - 1][-1] + item.requiredTime])
     # plot_schedule(data_for_graph)
-    import ipdb
-    ipdb.set_trace()
     return taken
 
 
@@ -375,8 +373,6 @@ if __name__ == '__main__':
             taken = solve(combined_orders)
         else:
             taken = solve(combined_orders, capacity=capacity)
-        import ipdb
-        ipdb.set_trace()
         taken_products = [order for order in processed_orders if taken[order[3]] == 1]
         # taken_products=[]
         # for order in processed_orders:
